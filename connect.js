@@ -59,7 +59,7 @@ const browserWSEndpoint = process.env.wsURL || null;
   console.log('Reconnecting to existing Chrome....');
   const browser = await puppeteer.connect({browserWSEndpoint});
   const page = await browser.newPage();
-  await page.goto('https://example.com');
+  await page.goto('https://malikblog.vercel.app');
 
   console.log(`Page title:`, await page.title());
 
