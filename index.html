@@ -97,6 +97,8 @@
   </head>
 <body>
 
+  
+
     <!--
        As defined by lazy load settings, initially:
        1. Slot 1 will be fetched and rendered on mobile and desktop.
@@ -111,7 +113,8 @@
         </script>
       </div>
 
-      
+      <!-- 3 viewport tall div to place next slot 3 viewports away. -->
+      <div style="height:300vh"></div>
 
       <div id="div-2" class="ad-slot" style="height: 90px; width: 728px;">
         <script>
@@ -132,7 +135,7 @@
     <div class="status-panel">
       <table>
         <tr>
-          <th>Ad Slots</th>
+          <th>Ad Slot</th>
           <th>Fetched?</th>
           <th>Rendered?</th>
         </tr>
@@ -156,7 +159,5 @@
         Scroll the container below to lazily load the ad slots.
       </p>
     </div>
-  <!-- 3 viewport tall div to place next slot 3 viewports away. -->
-      <div style="height:300vh"></div>
   </body>
 </html>
