@@ -1,221 +1,358 @@
-<!DOCTYPE html>
-<html>
+<!-- <!DOCTYPE html>
+<meta charset="utf-8">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Lazy Load</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,600">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: "Google Sans", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      /* text-rendering: optimizeLegibility; */
-    }
-    header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      background: url(https://picsum.photos/1800/300/?image=916) no-repeat 100% 50%;
-      height: 300px;
-      width: 100%;
-    }
-    header h1 {
-      font-size: 50px;
-    }
-    .hero {
-      width: 100%;
-      height: 200px;
-    }
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: 0;
-    }
-    h1, h2 {
-      margin: 0;
-    }
-    main {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px;
-    }
-    main::first-letter {
-      font-size: 28px;
-      /* margin-right: 4px; */
-    }
-    .imagerow {
-      display: flex;
-      justify-content: space-evenly;
-    }
-    .rounded {
-      border-radius: 50%;
-      float: left;
-      width: 175px;
-      height: 175px;
-      margin-right: 16px;
-      margin-bottom: 8px;
-      shape-outside: circle(100px at 50% 50%);
-    }
-    .lazyload,
-    .lazyloading {
-      opacity: 0;
-    }
-    .lazyloaded {
-      opacity: 1;
-      transition: opacity 300ms;
-    }
-  </style>
+	<title>Tree layout</title>
 </head>
+
+<style>
+	body {
+		font-family: "Helvetica Neue", Helvetica, sans-serif;
+		font-size: 9px;
+	}
+
+	.links path {
+		fill: none;
+		stroke: #ccc;
+	}
+</style>
+
 <body>
 
-<header>
-  <!-- <img src="https://picsum.photos/800/200/?random" class="hero"> -->
-  <h1>The Best Product Page Ever</h1>
-</header>
+	<svg width="800" height="920">
+		<g class="wrapper" transform="translate(20, 20)">
+			<g class="links"></g>
+			<g class="nodes"></g>
+		</g>
+	</svg>
 
-<main>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-<img src="https://picsum.photos/400/400/?image=1043" class="rounded" lazyload="on">
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
+	<script src="//d3js.org/d3.v4.min.js"></script>
+	<script>
 
-<p id="deeplink">Lazy loaded images using IntersectionObserver:</p>
 
-<div class="imagerow">
-  <img data-src="https://picsum.photos/200/300/?image=10">
-  <img data-src="https://picsum.photos/200/300/?image=20">
-  <img data-src="https://picsum.photos/200/300/?image=30">
-</div>
+var treeLayout = d3.tree()
+	.size([900, 600]);
 
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-
-<p>Iframe content using lazyload attribute:</p>
-<iframe data-src="https://example.com" lazyload="on"></iframe>
-
-<p id="deeplink2">Lazy loaded images using lazyimages.js library:</p>
-
-<div class="imagerow">
-  <img data-original="https://picsum.photos/200/300/?image=1000" class="lazyload">
-  <img data-original="https://picsum.photos/200/300/?image=1051" class="lazyload">
-  <img data-original="https://picsum.photos/200/300/?image=1020" class="lazyload">
-</div>
-
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate sit
-amet massa id faucibus. Nam gravida pellentesque consectetur. Nulla suscipit blandit
-tristique. Proin ut diam eu mi fermentum bibendum ac a lacus. Donec dui enim, rhoncus vel cursus
-at, feugiat et purus. Phasellus nec varius elit. In hac habitasse platea dictumst. Donec
-dictum placerat ante, sit amet tempus ante varius vitae.</p>
-
-<p>End of page</p>
-
-</main>
-
-<script src="https://afarkas.github.io/lazysizes/lazysizes.min.js"></script>
-<script>
-window.lazySizesConfig = window.lazySizesConfig || {};
-// window.lazySizesConfig.lazyClass = 'lazy';
-lazySizesConfig.srcAttr = 'data-original';
-
-function lazyLoadWhenVisible() {
-  const observer = new IntersectionObserver(function(records, observer) {
-    records.forEach(function(record) {
-      const el = record.target;
-      if (!el.src && record.isIntersecting) {
-        el.src = el.dataset.src;
-        delete el.dataset.src;
-        observer.unobserve(el);
-      }
-    });
-  }, {
-    // rootMargin: '100px',
-  });
-
-  const els = document.querySelectorAll('img[data-src],iframe[data-src]');
-  [].forEach.call(els, function(el) {
-    observer.observe(el);
-  });
+function link(d) {
+	return "M" + d.y + "," + d.x
+    + "C" + (d.y + d.parent.y) / 2 + "," + d.x
+    + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
+    + " " + d.parent.y + "," + d.parent.x;
 }
 
-function loadIOPolyfillIfNeeded() {
-  if ('IntersectionObserver' in window) {
-    return Promise.resolve();
+function make(root) {
+	var nodes = d3.select('.nodes')
+		.selectAll('g.node')
+		.data(root.descendants());
+
+	var enteringNodes = nodes.enter()
+		.append('g')
+		.classed('node', true)
+		.attr('transform', function(d) {
+			return 'translate(' + d.y + ',' + d.x + ')';
+		});
+
+	enteringNodes
+		.append('circle')
+		.attr('r', 2);
+
+	enteringNodes
+		.append('text')
+		.attr('x', 5)
+		.attr('y', 4)
+		.text(function(d) {
+			switch(d.depth) {
+			case 1:
+			case 2:
+				return d.data.key;
+			case 3:
+				return d.data.name;
+			}
+
+			return '';
+		});
+
+	var links = d3.select('.links')
+		.selectAll('path')
+		.data(root.descendants().slice(1));
+
+	links.enter()
+		.append('path')
+		.attr('d', link);
+}
+
+
+function ready(err, data) {
+  // root = json;
+// root.fixed = true;
+// root.x = w / 2;
+// root.y = h / 4;
+
+	var nest = d3.nest()
+	  .key(function(d) { return d.url; })
+	  // .key(function(d) { return d['Lead Studio']; })
+	  .entries(data);
+console.log(nest)
+	nest = {
+		key: 'root',
+		values: nest
+	};
+
+	var root = d3.hierarchy(nest, function(d) {
+		return d.values;
+	});
+
+	treeLayout(root);
+	make(root);
+}
+
+// d3.csv('films.csv', ready);
+
+d3.json("./tmp/crawl.json", ready);
+
+	</script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SPA pages</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <style>
+      @import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
+      body {font-family: "Source Code Pro", Consolas, monaco, monospace; line-height: 160%; font-size: 16px;  margin: 0; }
+      path.link {
+        fill: none;
+        stroke-width: 2px;
+      }
+      .node:not(:hover) .nodetext {
+        display: none;
+      }
+      h1 { font-size: 36px; margin: 10px 0; text-transform: uppercase; font-weight: normal;}
+      h2, h3 { font-size: 18px; margin: 5px 0 ; font-weight: normal;}
+      header {padding: 20px; position: absolute; top: 0; left: 0;}
+      a:link { color: #EE3124; text-decoration: none;}
+      a:visited { color: #EE3124; }
+      a:hover { color: #A4CD39; text-decoration: underline;}
+      a:active { color: #EE3124; }
+    </style>
+</head>
+
+
+<body>
+    <header>
+      <h1>Site pages</h1>
+      <h2>Click to view their identity</h2>
+      <h3>And link to their web page!</h3>
+    </header>
+    <section id="vis"></section>
+<script>
+
+// some colour variables
+  var tcBlack = "#130C0E";
+
+// rest of vars
+var w = 960,
+    h = 800,
+    maxNodeSize = 100,
+    x_browser = 20,
+    y_browser = 25,
+    root;
+
+var vis;
+var force = d3.layout.force();
+
+vis = d3.select("#vis").append("svg").attr("width", w).attr("height", h);
+
+d3.json("./output/https___santatracker.google.com_/crawl.json", function(json) {
+  root = json;
+  root.fixed = true;
+  root.x = w / 2;
+  root.y = h / 2;
+
+  // Build the path
+  var defs = vis.insert("svg:defs").data(["end"]);
+  defs.enter().append("svg:path").attr("d", "M0,-5L10,0L0,5");
+
+  update();
+});
+
+/**
+ *
+ */
+function update() {
+  var nodes = flatten(root),
+      links = d3.layout.tree().links(nodes);
+
+  // Restart the force layout.
+  force.nodes(nodes)
+        .links(links)
+        .gravity(0.05)
+    .charge(-1500)
+    .linkDistance(150)
+    .friction(0.5)
+    .linkStrength(function(l, i) {return 1; })
+    .size([w, h])
+    .on("tick", tick)
+        .start();
+
+   var path = vis.selectAll("path.link")
+      .data(links, function(d) { return d.target.id; });
+
+    path.enter().insert("svg:path")
+      .attr("class", "link")
+      // .attr("marker-end", "url(#end)")
+      .style("stroke", "#eee");
+
+
+  // Exit any old paths.
+  path.exit().remove();
+
+
+
+  // Update the nodes…
+  var node = vis.selectAll("g.node")
+      .data(nodes, function(d) { return d.id; });
+
+
+  // Enter any new nodes.
+  var nodeEnter = node.enter().append("svg:g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .on("click", click)
+      .call(force.drag);
+
+  // Append a circle
+  nodeEnter.append("svg:circle")
+      .attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
+      .style("fill", "#eee");
+
+
+  // Append images
+  var images = nodeEnter.append("svg:image")
+        .attr("xlink:href",  function(d) { return d.img;})
+        .attr("x", function(d) { return -25;})
+        .attr("y", function(d) { return -25;})
+        .attr("height", 50)
+        .attr("width", 50);
+
+  // make the image grow a little on mouse over and add the text details on click
+  var setEvents = images
+          // Append hero text
+          .on( 'click', function (d) {
+              // d3.select("h1").html(d.url);
+              d3.select("h2").html(d.name);
+              d3.select("h3").html (`Take me to <a href="${d.link}" target="_blank">${d.link || d.name} ⇢</a>`);
+           })
+
+          .on( 'mouseenter', function() {
+            // select element in current context
+            this.parentNode.parentNode.appendChild(this.parentNode);
+            d3.select( this )
+              .transition()
+              .attr("x", function(d) { return -60;})
+              .attr("y", function(d) { return -60;})
+              .attr("height", 400)
+              .attr("width", 400);
+
+          })
+          // set back
+          .on( 'mouseleave', function() {
+            d3.select( this )
+              .transition()
+              .attr("x", function(d) { return -25;})
+              .attr("y", function(d) { return -25;})
+              .attr("height", 50)
+              .attr("width", 50);
+          });
+
+  // Append hero name on roll over next to the node as well
+  nodeEnter.append("text")
+      .attr("class", "nodetext")
+      .attr("x", x_browser)
+      .attr("y", y_browser +15)
+      .attr("fill", tcBlack)
+      .text(function(d) { return d.title; });
+
+
+  // Exit any old nodes.
+  node.exit().remove();
+
+
+  // Re-select for update.
+  path = vis.selectAll("path.link");
+  node = vis.selectAll("g.node");
+
+function tick() {
+
+
+    path.attr("d", function(d) {
+
+     var dx = d.target.x - d.source.x,
+           dy = d.target.y - d.source.y,
+           dr = Math.sqrt(dx * dx + dy * dy);
+           return   "M" + d.source.x + ","
+            + d.source.y
+            + "A" + dr + ","
+            + dr + " 0 0,1 "
+            + d.target.x + ","
+            + d.target.y;
+  });
+    node.attr("transform", nodeTransform);
+  }
+}
+
+
+/**
+ * Gives the coordinates of the border for keeping the nodes inside a frame
+ * http://bl.ocks.org/mbostock/1129492
+ */
+function nodeTransform(d) {
+  d.x =  Math.max(maxNodeSize, Math.min(w - (d.imgwidth/2 || 16), d.x));
+    d.y =  Math.max(maxNodeSize, Math.min(h - (d.imgheight/2 || 16), d.y));
+    return "translate(" + d.x + "," + d.y + ")";
+   }
+
+/**
+ * Toggle children on click.
+ */
+function click(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
   }
 
-  // Note: chrome 41 doesn't support arrow functions
-  return new Promise(function(resolve, reject) {
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://cdn.polyfill.io/v2/polyfill.js?features=IntersectionObserver'; ///https://unpkg.com/intersection-observer/intersection-observer.js
-    s.onload = resolve;
-    s.onerror = reject;
-    document.body.appendChild(s);
-    // await import('../node_modules/intersection-observer/intersection-observer.js');
-  });
+  update();
 }
-</script>
-<script type="module">
-(async () => {
-  await loadIOPolyfillIfNeeded();
-  lazyLoadWhenVisible();
-})();
 
-// document.addEventListener('scroll', e => console.log(e));
-// window.addEventListener('scroll', e => console.log(e));
+
+/**
+ * Returns a list of all nodes under the root.
+ */
+function flatten(root) {
+  var nodes = [];
+  var i = 0;
+
+  function recurse(node) {
+    if (node.children)
+      node.children.forEach(recurse);
+    if (!node.id)
+      node.id = ++i;
+    nodes.push(node);
+  }
+
+  recurse(root);
+  return nodes;
+}
+
+
 </script>
-<script nomodule>
-  loadIOPolyfillIfNeeded().then(lazyLoadWhenVisible);
-</script>
+
 </body>
 </html>
