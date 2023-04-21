@@ -5,57 +5,7 @@
     <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
     
     <script>
-      window.googletag = window.googletag || {cmd: []};
-
-      googletag.cmd.push(function() {
-        googletag.defineSlot('/6355419/Travel', [728, 90], 'div-1')
-          .setTargeting('test', 'lazyload')
-          .addService(googletag.pubads());
-        googletag.defineSlot('/6355419/Travel', [728, 90], 'div-2')
-          .setTargeting('test', 'lazyload')
-          .addService(googletag.pubads());
-        googletag.defineSlot('/6355419/Travel', [728, 90], 'div-3')
-          .setTargeting('test', 'lazyload')
-          .addService(googletag.pubads());
-
-        // Some examples of ways to enable lazy loading below.
-        // Normally, only one of these methods should be used.
-
-        // A) Enable with defaults.
-        googletag.pubads().enableLazyLoad();
-
-        // B) Enable without lazy fetching. Additional calls override previous
-        // ones.
-        googletag.pubads().enableLazyLoad({fetchMarginPercent: -1});
-
-        // C) Enable lazy loading with...
-        googletag.pubads().enableLazyLoad({
-          // Fetch slots within 5 viewports.
-          fetchMarginPercent: 500,
-          // Render slots within 2 viewports.
-          renderMarginPercent: 200,
-          // Double the above values on mobile, where viewports are smaller
-          // and users tend to scroll faster.
-          mobileScaling: 2.0
-        });
-
-        // Register event handlers to observe lazy loading behavior.
-        googletag.pubads().addEventListener('slotRequested', function(event) {
-          updateSlotStatus(event.slot.getSlotElementId(), 'fetched');
-        });
-
-        googletag.pubads().addEventListener('slotOnload', function(event) {
-          updateSlotStatus(event.slot.getSlotElementId(), 'rendered');
-        });
-
-        googletag.enableServices();
-      });
-
-      function updateSlotStatus(slotId, state) {
-        var elem = document.getElementById(slotId + '-' + state);
-        elem.className = 'activated';
-        elem.innerText = 'Yes';
-      }
+      /** * Play Google Pac-man Doodle from Node! Uses Puppeteer's keyboard API to * forward key presses to the browser. */ const readline = require('readline');const puppeteer = require('puppeteer'); (async() => { const browser = await puppeteer.launch({ headless: false, args: ['--window-size=800,500']}); const page = await browser.newPage();await page.setViewport({width: 800, height: 500, deviceScaleFactor: 2});await page.goto('https://www.google.com/logos/2010/pacman10-i.html'); process.stdin.on('keypress', async (str, key) => { // In "raw" mode, so create own kill switch. if (key.sequence === '\u0003') { await browser.close(); process.exit(); } // See https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#keyboarddownkey-options if (['up', 'down', 'left', 'right'].includes(key.name)) { const capitalized = key.name[0].toUpperCase() + key.name.slice(1); const keyName = `Arrow${capitalized}`; console.log(`page.keyboard.down('${keyName}')`); await page.keyboard.down(keyName); }}); readline.emitKeypressEvents(process.stdin);process.stdin.setRawMode(true); })();
     </script>
     <style>
       div.ad-slot {
